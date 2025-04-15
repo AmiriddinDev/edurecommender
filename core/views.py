@@ -1,29 +1,30 @@
+from django.shortcuts import render
 import joblib
 import os
 
-from django.shortcuts import render
-from .forms import SubjectForm
+from core.forms import GradeForm
 
-# Modelni yuklaymiz
+# Modelni yuklab olish
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'recommender_model.pkl')
 model = joblib.load(MODEL_PATH)
 
+
+# Home view: forma va natija ko‘rsatish
 def home(request):
-    result = None
+    return render(request, template_name="index.html")
+
+def render_form(request):
     if request.method == 'POST':
-        form = SubjectForm(request.POST)
+        form = GradeForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-            input_data = [
-                data['matematika'],
-                data['fizika'],
-                data['biologiya'],
-                data['informatika'],
-                data['tarix'],
-                data['ingliz_tili']
-            ]
-            prediction = model.predict([input_data])[0]
-            result = f"Siz uchun eng mos yo‘nalish: {prediction} ✅"
+            data = list(form.cleaned_data.values())
+            recommendation = model.predict([data])[0]
+            return render(request, 'core/result.html', {
+                'recommendation': recommendation
+            })
     else:
-        form = SubjectForm()
-    return render(request, 'core/form.html', {'form': form, 'result': result})
+        form = GradeForm()
+
+    return render(request, 'core/form.html', {
+        'form': form
+    })

@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Siz uchun tavsiya{% endblock %}
+
+{% block extra_css %}
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        h3 {
+            color: #0d6efd;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="main-banner">
+        <div class="container">
+            <h3 class="mb-3">✅ Siz uchun yo‘nalish:</h3>
+
+            <div class="alert alert-info fs-4">
+                <strong>{{ recommendation }}</strong>
+            </div>
+
+            <a href="{% url "core:render_form" %}" class="btn btn-primary">🔁 Qayta urinish</a>
+        </div>
+    </section>
+{% endblock %}

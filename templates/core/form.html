@@ -1,14 +1,23 @@
 {% extends "layouts/base.html" %}
 
-{% block content %}
-    <h1>Fanlarga bo‘lgan qiziqishingizni kiriting:</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Tavsiya olish</button>
-    </form>
+{% block title %}Baholarni kiriting{% endblock %}
 
-    {% if result %}
-        <h2>Natija: {{ result }}</h2>
-    {% endif %}
+{% block content %}
+    <section class="main-banner">
+        <div class="container">
+            <h3 class="mb-4">📊 Fanlarga qiziqishingizni 1 dan 10 gacha baholang!</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row g-3">
+                    {% for subject in form %}
+                        <div class="col-md-4">
+                            <label class="form-label">{{ subject.label }}</label>
+                            {{ subject }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-light mt-3">Tavsiya olish</button>
+            </form>
+        </div>
+    </section>
 {% endblock %}
