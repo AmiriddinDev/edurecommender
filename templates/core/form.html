@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+    <h1>Fanlarga bo‘lgan qiziqishingizni kiriting:</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Tavsiya olish</button>
+    </form>
+
+    {% if result %}
+        <h2>Natija: {{ result }}</h2>
+    {% endif %}
+{% endblock %}
